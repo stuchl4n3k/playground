@@ -1,17 +1,17 @@
 const {spawn} = require('child_process');
 
 function init() {
-    const ls = spawn('top');
+    const top = spawn('top', ['-b']);
 
-    ls.stdout.on('data', function (data) {
+    top.stdout.on('data', function (data) {
         append(data.toString());
     });
 
-    ls.stderr.on('data', function (data) {
-        append(data.toString());
+    top.stderr.on('data', function (data) {
+        append('ERR: ' + data.toString());
     });
 
-    ls.on('close', function (code) {
+    top.on('close', function (code) {
         console.log(`child process exited with code ${code}`);
     });
 }
